@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import update from 'immutability-helper'
 
-import {MetaData, Section, Practice } from './components/index'
+import {MetaData, Section, Practice, BtnGroup } from './components/index'
 // import BtnGroup from './components/BtnGroup'
 // import handleInputChange from './helpers/helper.js'
 
@@ -14,18 +14,15 @@ export default class Main extends Component{
         metaIntroVideo:'',
         salesPage:'',
         courseDesc:'',
-        sectionVisilibity:false,
-        practiceVisilibity:false,
-        section: {
-
-        },
+        visibility: [
+          {section: false},
+          {practice: false},
+          {subSec: false},
+          {download: false}
+        ],
+        section: {},
         practice:{}
     }
-    this.handleOnChange = this.handleOnChange.bind(this)
-    this.handleSecOnChange = this.handleSecOnChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.createSection = this.createSection.bind(this)
-    this.createPractice = this.createPractice.bind(this)
   }
   handleOnChange = (event) => {
     const target = event.target
@@ -37,13 +34,20 @@ export default class Main extends Component{
     })
   }
 
-  createSection = (evt) => {
+  createField = (e, idx, propertyName) => {
+    let visibility = this.state.visibility
+    visibility[idx].propertyName = true
+    this.setState({
+      visibility: visibility
+    })
+  }
+  createSection = () => {
     this.setState({
       sectionVisilibity: !this.state.sectionVisilibity
     })
   }
 
-  createPractice = (evt) => {
+  createPractice = () => {
     this.setState({
       practiceVisilibity: !this.state.practiceVisilibity
     })
@@ -58,6 +62,23 @@ export default class Main extends Component{
       section: newSec
     })
   }
+
+  createSubSec = () => {
+    const { sectionVisilibity } = this.state
+    if(!sectionVisilibity) alert("You have to create Section or Practice first!")
+    return this.setState({
+      subSecVisibility: sectionVisilibity ? true : false
+    })
+  }
+
+  createDownload = () => {
+    const { sectionVisilibity } = this.state
+    if(!sectionVisilibity) alert("You have to create Section or Practice first!")
+    return this.setState({
+      downloadVisilibity: sectionVisilibity ? true : false
+    })
+  }
+
   handleSubmit = (evt) => {
     alert(JSON.stringify(this.state))
   }
@@ -71,15 +92,22 @@ export default class Main extends Component{
         </div>
 
         <div>
-          <ul>
-            <li onClick={this.createSection}>Section</li>
-            <li onClick={this.createPractice}>Practice</li>
-          </ul>
+          <BtnGroup
+            // createField={this.createField}
+            // visibility={this.state.visibility}
+            createSection={this.createSection}
+            createPractice={this.createPractice}
+            createSubSec={this.createSubSec}
+            createDownload={this.createDownload}
+          />
         </div>
 
         <div>
           {this.state.sectionVisilibity ?
-            <Section handleOnChange={this.handleSecOnChange} /> :
+            <Section
+              handleOnChange={this.handleSecOnChange}
+              subSecVisibility={this.state.subSecVisibility}
+             /> :
             null
          }
          {this.state.practiceVisilibity ?

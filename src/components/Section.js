@@ -1,7 +1,9 @@
 import React from 'react';
+import { SubSection, Download } from './index'
 
-const Section = ({ handleOnChange }) => (
+const Section = ({ handleOnChange, subSecVisibility, downloadVisilibity }) => (
   <div>
+    <div>
     <label>Section Name</label>
     <input type='text' name='sectionName' onChange={(e,name) => handleOnChange(e, name)} />
 
@@ -13,6 +15,11 @@ const Section = ({ handleOnChange }) => (
 
     <label>Color</label>
     <input type='text' name='color' onChange={(e,name) => handleOnChange(e, name)}/>
+  </div>
+  <div>
+    {subSecVisibility ? <SubSection /> : null}
+    {downloadVisilibity ? <Download /> : null}
+  </div>
 </div>
 )
 
