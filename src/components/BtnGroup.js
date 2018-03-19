@@ -2,16 +2,16 @@ import React from 'react';
 // import { Section } from './index';
 // createSection, createPractice, createSubSec, createDownload, createTest
 
-const BtnGroup = ({ createSection, createPractice, createSubSec, createDownload, createTest }) => (
+const BtnGroup = ({ handleClick }) => (
   <ul>
     {/* {visibility.map((item, idx) => {
         <li key={idx} onClick={(e) => this.createField(e,idx,'section')}>Section</li>
     })} */}
-    <li onClick={createSection}>Section</li>
-    <li onClick={createPractice}>Practice</li>
-    <li onClick={createSubSec}>Subsection</li>
-    <li onClick={createDownload}>Download</li>
-    <li onClick={createTest}>Test</li>
+    <li data-click-type='section' onClick={(e) => handleClick(e)}>Section</li>
+    <li data-click-type='practice' onClick={handleClick}>Practice</li>
+    {/* <li data-click-type= onClick={handleClick}>Subsection</li>
+    <li data-click-type= onClick={handleClick}>Download</li>
+    <li data-click-type= onClick={handleClick}>Test</li> */}
   </ul>
 )
 

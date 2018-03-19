@@ -14,12 +14,14 @@ export default class Main extends Component{
         metaIntroVideo:'',
         salesPage:'',
         courseDesc:'',
-        visibility: [
-          {section: false},
-          {practice: false},
-          {subSec: false},
-          {download: false}
-        ],
+        // visibility: [
+        //   {section: false},
+        //   {practice: false},
+        //   {subSec: false},
+        //   {download: false}
+        // ],
+        sectionVisilibity: false,
+        practiceVisilibity: false,
         section: {},
         practice:{}
     }
@@ -34,25 +36,41 @@ export default class Main extends Component{
     })
   }
 
-  createField = (e, idx, propertyName) => {
-    let visibility = this.state.visibility
-    visibility[idx].propertyName = true
-    this.setState({
-      visibility: visibility
-    })
-  }
-  createSection = () => {
-    this.setState({
-      sectionVisilibity: !this.state.sectionVisilibity
-    })
-  }
+  // createField = (e, idx, propertyName) => {
+  //   let visibility = this.state.visibility
+  //   visibility[idx].propertyName = true
+  //   this.setState({
+  //     visibility: visibility
+  //   })
+  // }
+  // createSection = () => {
+  //   this.setState({
+  //     sectionVisilibity: !this.state.sectionVisilibity
+  //   })
+  // }
+  //
+  // createPractice = () => {
+  //   this.setState({
+  //     practiceVisilibity: !this.state.practiceVisilibity
+  //   })
+  // }
+  handleClick = (ev) => {
+    const type = ev.target.dataset.clickType
+    switch (type) {
+      case 'section':
+      this.setState({
+          sectionVisilibity: !this.state.sectionVisilibity
+        })
+        break;
+      case 'practice':
+      this.setState({
+        practiceVisilibity: !this.state.practiceVisilibity
+      })
+        break;
+      default:
 
-  createPractice = () => {
-    this.setState({
-      practiceVisilibity: !this.state.practiceVisilibity
-    })
+    }
   }
-
   handleSecOnChange = (event) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked: target.value
@@ -95,10 +113,11 @@ export default class Main extends Component{
           <BtnGroup
             // createField={this.createField}
             // visibility={this.state.visibility}
-            createSection={this.createSection}
-            createPractice={this.createPractice}
-            createSubSec={this.createSubSec}
-            createDownload={this.createDownload}
+            // createSection={this.createSection}
+            // createPractice={this.createPractice}
+            // createSubSec={this.createSubSec}
+            // createDownload={this.createDownload}
+            handleClick = {this.handleClick}
           />
         </div>
 
