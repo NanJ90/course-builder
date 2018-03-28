@@ -1,26 +1,54 @@
-import React from 'react';
-import { SubSection, Download } from './index'
+import React, { Component } from 'react'
+import SubBtnGroup from './SubBtnGroup'
 
-const Section = ({ handleOnChange, subSecVisibility, downloadVisilibity }) => (
-  <div>
-    <div>
-    <label>Section Name</label>
-    <input type='text' name='sectionName' onChange={(e,name) => handleOnChange(e, name)} />
+//   /* <div>
+//     {sectionVisibility ?
+//       <SubBtnGroup
+//         handleOnChange= {handleSubsecOnChange}
+//         handleClick={handleClick}
+//         subSecVisibility= {subSecVisibility}
+//       /> : null}
+//   </div> */
+//   )}
 
-    <label>Intro Video</label>
-    <input type='text' name='introVideo'/>
+// )
 
-    <label>Description</label>
-    <input type='text' name='description' onChange={(e,name) => handleOnChange(e, name)}/>
+class Section extends Component{
+  // renderlist() {
+  //
+  // }
+  render() {
+    // console.log(this.props);
+    const {handleSecOnChange, sectionVisibility, handleSubsecOnChange, subSecVisibility, removeSection, addSection, sections} = this.props
+    if(sections.length >= 0 ) {
+      // console.log(sections.map((el,i)=> {
+      //   return (i)
+      // }))
+        return (
+          sections.map((el,i) => {
+            let secName = `sectionName[${i}]`
+            let sectionDesc = 'sectionDesc['+ i + ']'
+            return(
+              <div key={i}>
+                <button onClick={(e,i) => removeSection(e,i)}>Remove</button>
+                <label>Section Name</label>
+                <input type='text' name={secName} onChange={ handleSecOnChange(i)} />
 
-    <label>Color</label>
-    <input type='text' name='color' onChange={(e,name) => handleOnChange(e, name)}/>
-  </div>
-  <div>
-    {subSecVisibility ? <SubSection /> : null}
-    {downloadVisilibity ? <Download /> : null}
-  </div>
-</div>
-)
+                <label>Intro Video</label>
+                <input type='text' name='introVideo'/>
+
+                <label>Description</label>
+                <input type='text' name={el.sectionDesc} onChange={ handleSecOnChange(i)}/>
+
+                <label>Color</label>
+                <input type='text' name={el.color} onChange={ handleSecOnChange(i)}/>
+                <button onClick={addSection}>Add Section</button>
+            </div>
+            )
+          }
+          ))}
+      return null;
+  }
+}
 
 export { Section }
