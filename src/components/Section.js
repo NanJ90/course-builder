@@ -26,22 +26,22 @@ class Section extends Component{
       // }))
         return (
           sections.map((el,i) => {
-            let secName = `sectionName[${i}]`
-            let sectionDesc = 'sectionDesc['+ i + ']'
+            // let secName = `sectionName[${i}]`
+            // let sectionDesc = 'sectionDesc['+ i + ']'
             return(
               <div key={i}>
                 <button onClick={(e,i) => removeSection(e,i)}>Remove</button>
                 <label>Section Name</label>
-                <input type='text' name={secName} onChange={ handleSecOnChange(i)} />
+                <input type='text' name='secName' onChange={ handleSecOnChange(i)} />
 
                 <label>Intro Video</label>
                 <input type='text' name='introVideo'/>
 
                 <label>Description</label>
-                <input type='text' name={el.sectionDesc} onChange={ handleSecOnChange(i)}/>
+                <input type='text' name='sectionDesc' onChange={ handleSecOnChange(i)}/>
 
                 <label>Color</label>
-                <input type='text' name={el.color} onChange={ handleSecOnChange(i)}/>
+                <input type='text' name='color' onChange={ handleSecOnChange(i)}/>
                 <button onClick={addSection}>Add Section</button>
             </div>
             )

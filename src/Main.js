@@ -71,15 +71,14 @@ export default class Main extends Component{
     } else {
       return {...section, [name]:value}
     }
+    })
       this.setState(prevState => ({
         course: {
           ...prevState.course,
-          sections: [
-            newSection
-          ]
+          sections: newSection
         }
       }))
-  })
+
   }
 
   handleSubsecOnChange = (event) => {
