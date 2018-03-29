@@ -19,7 +19,7 @@ class Section extends Component{
   // }
   render() {
     // console.log(this.props);
-    const {handleSecOnChange, sectionVisibility, handleSubsecOnChange, subSecVisibility, removeSection, addSection, sections} = this.props
+    const {handleSecOnChange, sectionVisibility, handleSubsecOnChange, subSecVisibility, removeSection, sections} = this.props
     if(sections.length >= 0 ) {
       // console.log(sections.map((el,i)=> {
       //   return (i)
@@ -30,7 +30,7 @@ class Section extends Component{
             // let sectionDesc = 'sectionDesc['+ i + ']'
             return(
               <div key={i}>
-                <button onClick={(e,i) => removeSection(e,i)}>Remove</button>
+                <button onClick={(e) => removeSection(e,i)}>Remove</button>
                 <label>Section Name</label>
                 <input type='text' name='secName' onChange={ handleSecOnChange(i)} />
 
@@ -42,7 +42,7 @@ class Section extends Component{
 
                 <label>Color</label>
                 <input type='text' name='color' onChange={ handleSecOnChange(i)}/>
-                <button onClick={addSection}>Add Section</button>
+
             </div>
             )
           }

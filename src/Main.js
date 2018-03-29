@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import update from 'immutability-helper'
 
 import {MetaData, Section, Practice, BtnGroup } from './components/index'
+import SubBtnGroup from './components/SubBtnGroup'
 // import BtnGroup from './components/BtnGroup'
 // import handleInputChange from './helpers/helper.js'
 
@@ -59,7 +60,7 @@ export default class Main extends Component{
         })
     }
   }
-  handleSecOnChange =(i) => (event) => {
+  handleSecOnChange = (i) => (event) => {
    const { name, value } = event.target;
    const { sections } = this.state.course
   //  console.log(i)
@@ -120,11 +121,22 @@ export default class Main extends Component{
       }
     })
   }
-  removeSection = (i, e) => {
+  removeSection = (e,i) => {
     e.preventDefault();
-    let course = [...this.state.course]
-    course.sections.splice(i,1);
-    this.setState({ course });
+    console.log(i)
+    // let course = [...this.state.course]
+    console.log(this.state.course);
+    // const course = this.state.course
+    let newSection = this.state.course.sections
+    newSection.splice(i,1)
+    this.setState((prevState) => {
+      return {
+        course: {
+          ...prevState.course,
+          sections:newSection
+        }
+      }
+    })
   }
 
   handleSubmit = (evt) => {
@@ -147,15 +159,18 @@ export default class Main extends Component{
 
         <div>
           {this.state.sectionVisibility ?
-            <Section
-              handleSecOnChange={this.handleSecOnChange}
-              handleSubsecOnChange={this.handleSubsecOnChange}
-              subSecVisibility={this.state.subSecVisibility}
-              handleClick={this.handleClick}
-              addSection={this.addSection}
-              sections={this.state. course.sections}
-              removeSection={this.removeSection}
-             /> :
+            <div>
+              <Section
+                handleSecOnChange={this.handleSecOnChange}
+                handleSubsecOnChange={this.handleSubsecOnChange}
+                subSecVisibility={this.state.subSecVisibility}
+                handleClick={this.handleClick}
+                sections={this.state.course.sections}
+                removeSection={this.removeSection}
+               />
+               <button onClick={this.addSection}>Add Section</button>
+            </div>
+             :
             null
          }
          {this.state.practiceVisibility ?
@@ -163,6 +178,7 @@ export default class Main extends Component{
            practiceVisibility={this.state.practiceVisibility}/> :
            null
         }
+        <SubBtnGroup />
         </div>
       <button>Submit</button>
     </form>
