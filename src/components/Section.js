@@ -1,54 +1,51 @@
 import React, { Component } from 'react'
 import SubBtnGroup from './SubBtnGroup'
 
-//   /* <div>
-//     {sectionVisibility ?
-//       <SubBtnGroup
-//         handleOnChange= {handleSubsecOnChange}
-//         handleClick={handleClick}
-//         subSecVisibility= {subSecVisibility}
-//       /> : null}
-//   </div> */
-//   )}
-
-// )
-
 class Section extends Component{
-  // renderlist() {
-  //
-  // }
-  render() {
-    // console.log(this.props);
-    const {handleSecOnChange, sectionVisibility, handleSubsecOnChange, subSecVisibility, removeSection, sections} = this.props
-    if(sections.length >= 0 ) {
-      // console.log(sections.map((el,i)=> {
-      //   return (i)
-      // }))
-        return (
-          sections.map((el,i) => {
-            // let secName = `sectionName[${i}]`
-            // let sectionDesc = 'sectionDesc['+ i + ']'
-            return(
-              <div key={i}>
-                <button onClick={(e) => removeSection(e,i)}>Remove</button>
-                <label>Section Name</label>
-                <input type='text' name='secName' onChange={ handleSecOnChange(i)} />
-
-                <label>Intro Video</label>
-                <input type='text' name='introVideo'/>
-
-                <label>Description</label>
-                <input type='text' name='sectionDesc' onChange={ handleSecOnChange(i)}/>
-
-                <label>Color</label>
-                <input type='text' name='color' onChange={ handleSecOnChange(i)}/>
-
-            </div>
-            )
-          }
-          ))}
-      return null;
+  constructor() {
+    super()
+    this.renderSection = this.renderSection.bind(this)
   }
+
+  renderSection () {
+    const { handleSecOnChange, removeSection, sections,
+      addSubComponent, handleSubsecOnChange } = this.props
+
+    return (
+      sections.map((obj,i) => {
+        let sectionName = `section[${i+1}]`
+        return (
+          <div key={i+1}>
+            <button onClick={(e) => removeSection(e,i)}>Remove</button>
+            <label>Section Name</label>
+            <input type='text' name={sectionName} onChange={(e)=> handleSecOnChange(e,i)} />
+
+            <label>Intro Video</label>
+            <input type='text' name='introVideo'/>
+
+            <label>Description</label>
+            <input type='text' name='sectionDesc' onChange={(e) =>  handleSecOnChange(e,i)}/>
+
+            <label>Color</label>
+            <input type='text' name='color'/>
+
+            <SubBtnGroup
+            handleClick={addSubComponent}
+            handleOnChange={handleSubsecOnChange}
+            sections={sections}
+            index={i}
+          />
+        </div>
+        )
+    }))
+  }
+
+  render() {
+        return (
+          <div>{this.renderSection()}</div>
+        )
+    }
+
 }
 
 export { Section }

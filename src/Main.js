@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import update from 'immutability-helper'
 
-import {MetaData, Section, Practice, BtnGroup } from './components/index'
+import {MetaData, Section, Practice, BtnGroup, SubSection } from './components/index'
 import SubBtnGroup from './components/SubBtnGroup'
 // import BtnGroup from './components/BtnGroup'
 // import handleInputChange from './helpers/helper.js'
@@ -13,31 +13,17 @@ export default class Main extends Component{
         sectionVisibility: false,
         // practiceVisibility: false,
         // subSecVisibility: false,
-        course: {
-          sections: [
-            {
-              // sectionName:'',
-              // sectionDesc:'',
-              // color:'',
-              // subArray:[
-              //   {
-              //     subName: '',
-              //     subDesc: ''
-              //   }
-              // ],
-              // dowloadArray:[],
-              // testArray:[]
-            }
-          ],
-          practices:[]
-        }
+          sections: [{}],
+          practices:[
+
+          ]
+
   }
 }
 
   handleOnChange = (event) => {
     const {name, value} = event.target;
-    this.setState({...this.state.course, [name]: value})
-    // console.log(i)
+    this.setState({...this.state, [name]: value})
   }
 
   handleClick = (ev) => {
@@ -53,89 +39,73 @@ export default class Main extends Component{
           practiceVisibility: !this.state.practiceVisibility
         })
         break;
-      default:
-      case 'subsection':
-      this.setState({
-        subSecVisibility: !this.state.subSecVisibility
-        })
+        default:
     }
   }
-  handleSecOnChange = (i) => (event) => {
-   const { name, value } = event.target;
-   const { sections } = this.state.course
-  //  console.log(i)
-  //  console.log(`name ${name} value${value} i${si}`)
-    const newSection = sections.map((section, si) => {
-    if(i !== si) {
-      let newSec = update(section,{$merge:{[name]:value}})
-      return newSec
-    } else {
-      return {...section, [name]:value}
-    }
-    })
-      this.setState(prevState => ({
-        course: {
-          ...prevState.course,
-          sections: newSection
-        }
-      }))
 
+  handleSecOnChange = (event, i) => {
+   const { name, value } = event.target
+   const sections = this.state.sections
+   const newSection = sections.map((section,si) => {
+     //enter new content
+     if(si === i) return {...section, [name]: value}
+     return section
+   })
+     this.setState({
+       ...this.state,
+       sections: newSection
+     })
   }
 
   handleSubsecOnChange = (event) => {
     const { name, value } = event.target
-    const section = this.state.section
+    // const section = this.state.section
     // subArray.map(arr => (
     //   let newSub = update(arr, {$merge: {[name]: value }})
     //   this.setState({
     //     subArray: newSub
     //   })
     // ))
-    this.setState({ ...this.state.section })
+    // this.setState({ ...this.state.section })
   }
 
   addSection = (e) => {
-    e.preventDefault();
-    // const newObj =
-    //   {
-    //     sectionName:'',
-    //     sectionDesc:'',
-    //     color:'',
-    //     subArray:[
-    //       {
-    //         subName: '',
-    //         subDesc: ''
-    //       }
-    //     ],
-    //     dowloadArray:[],
-    //     testArray:[]
-    //   }
-
-    let newSection = update(this.state.course.sections, {$push: [{}] })
+    e.preventDefault()
     this.setState((prevState) => {
       return {
-        course: {
-          ...prevState.course,
-          sections:newSection
+          ...prevState,
+          sections:this.state.sections.concat({})
         }
-      }
+
     })
   }
-  removeSection = (e,i) => {
-    e.preventDefault();
+
+  addSubComponent = (i) => (e) => {
+    e.preventDefault()
     console.log(i)
-    // let course = [...this.state.course]
-    console.log(this.state.course);
-    // const course = this.state.course
-    let newSection = this.state.course.sections
+    const sections = this.state.sections
+    //single section object: section[i]
+    let newSecObj = {...sections[i],subArray:[{}]}
+    console.log(newSecObj)
+    this.setState({
+        sections:[
+          ...sections.slice(0,i),
+          Object.assign({}, sections[i], newSecObj),
+          ...sections.slice(i+1)
+        ]
+    })
+
+}
+  removeSection = (e,i) => {
+    e.preventDefault()
+    let newSection = this.state.sections
+    if(i === 0) return
     newSection.splice(i,1)
     this.setState((prevState) => {
       return {
-        course: {
-          ...prevState.course,
+          ...prevState,
           sections:newSection
         }
-      }
     })
   }
 
@@ -144,7 +114,9 @@ export default class Main extends Component{
   }
 
   render() {
-    // console.log(this.state);
+    // console.log(this.state.sections)
+    // console.log(this.state.course.sections.length)
+    // console.log(this.state.course.practices.length)
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
@@ -159,26 +131,36 @@ export default class Main extends Component{
 
         <div>
           {this.state.sectionVisibility ?
-            <div>
+            <div style= {{ border: '2px solid black'}}>
               <Section
                 handleSecOnChange={this.handleSecOnChange}
-                handleSubsecOnChange={this.handleSubsecOnChange}
-                subSecVisibility={this.state.subSecVisibility}
+                addSubComponent={this.addSubComponent}
                 handleClick={this.handleClick}
-                sections={this.state.course.sections}
+                sections={this.state.sections}
                 removeSection={this.removeSection}
+                handleSecOnChange={this.handleSecOnChange}
                />
-               <button onClick={this.addSection}>Add Section</button>
+               {/* {this.state.subSecVisibility ?
+                 <SubSection
+                   handleOnChange={this.handleSubsecOnChange}
+                   addSubSec={this.addSubSec}
+                   sections={this.state.course.sections}
+                 />
+                 :
+                null} */}
+                <button onClick={this.addSection}>Add Section</button>
             </div>
              :
             null
-         }
+          }
+         <div>
          {this.state.practiceVisibility ?
            <Practice
            practiceVisibility={this.state.practiceVisibility}/> :
            null
         }
-        <SubBtnGroup />
+        {/* <SubBtnGroup /> */}
+        </div>
         </div>
       <button>Submit</button>
     </form>
