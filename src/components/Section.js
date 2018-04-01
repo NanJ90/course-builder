@@ -9,7 +9,7 @@ class Section extends Component{
 
   renderSection () {
     const { handleSecOnChange, removeSection, sections,
-      addSubComponent, handleSubsecOnChange } = this.props
+      addSubComponent, handleOnChange } = this.props
 
     return (
       sections.map((obj,i) => {
@@ -31,7 +31,7 @@ class Section extends Component{
 
             <SubBtnGroup
             handleClick={addSubComponent}
-            handleOnChange={handleSubsecOnChange}
+            handleOnChange={handleOnChange}
             sections={sections}
             index={i}
           />

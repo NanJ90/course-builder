@@ -57,9 +57,17 @@ export default class Main extends Component{
      })
   }
 
-  handleSubsecOnChange = (event) => {
+  handleSubsecOnChange = (event, si) => {
     const { name, value } = event.target
-    // const section = this.state.section
+    const subArray = this.state.sections.subArray
+    if (subArray !== undefined){
+      const newSubSec = subArray.map((sub, index) => {
+        if(index === si) return {...subArray, [name]: value}
+        return sub
+      })
+    }
+    return null
+
     // subArray.map(arr => (
     //   let newSub = update(arr, {$merge: {[name]: value }})
     //   this.setState({
@@ -82,19 +90,21 @@ export default class Main extends Component{
 
   addSubComponent = (i) => (e) => {
     e.preventDefault()
-    console.log(i)
     const sections = this.state.sections
     //single section object: section[i]
-    let newSecObj = {...sections[i],subArray:[{}]}
-    console.log(newSecObj)
-    this.setState({
-        sections:[
-          ...sections.slice(0,i),
-          Object.assign({}, sections[i], newSecObj),
-          ...sections.slice(i+1)
-        ]
-    })
-
+    // if(sections !== '[{}]') {
+      console.log(sections)
+      let newSecObj = {...sections[i],subArray:[{}]}
+      console.log(newSecObj)
+      this.setState({
+          sections:[
+            ...sections.slice(0,i),
+            Object.assign({}, sections[i], newSecObj),
+            ...sections.slice(i+1)
+          ]
+      })
+    // }
+    // return alert("You have to have a section!")
 }
   removeSection = (e,i) => {
     e.preventDefault()
@@ -138,7 +148,7 @@ export default class Main extends Component{
                 handleClick={this.handleClick}
                 sections={this.state.sections}
                 removeSection={this.removeSection}
-                handleSecOnChange={this.handleSecOnChange}
+                handleOnChange={this.handleSubsecOnChange}
                />
                {/* {this.state.subSecVisibility ?
                  <SubSection
