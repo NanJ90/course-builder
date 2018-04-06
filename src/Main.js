@@ -14,10 +14,7 @@ export default class Main extends Component{
         // practiceVisibility: false,
         // subSecVisibility: false,
           sections: [{}],
-          practices:[
-
-          ]
-
+          practices:[]
   }
 }
 
@@ -57,24 +54,49 @@ export default class Main extends Component{
      })
   }
 
-  handleSubsecOnChange = (event, si) => {
+  handleSubsecOnChange = (event,si, i) => {
+    // console.log(this.state.sections)
     const { name, value } = event.target
-    const subArray = this.state.sections.subArray
-    if (subArray !== undefined){
-      const newSubSec = subArray.map((sub, index) => {
-        if(index === si) return {...subArray, [name]: value}
-        return sub
-      })
+    const subArray = this.state.sections[i].subArray
+    // // console.log(this.state.sections[i])
+    if (subArray !== undefined) {
+      // replaceing subArray[i] as newSubArray
+    const newSections = this.state.sections.map((sec, _idx) => {
+      var newSubArray
+      var newSec
+      if(_idx === i) {
+         newSubArray = subArray.map((sub, index) => {
+           if(index === si) return {...sub, [name]: value}
+           return sub
+         })
+
+         newSec = {...this.state.sections[i], subArray: newSubArray}
+         console.log(newSec)
+        // return newSubArray
+      }
+    // console.log(newSubArray)
+    return {
+      ...sec,
+      // subArray: newSubArray
+    };
+  })
+      // const newSubArray = subArray.map((sub, index) => {
+      //   if(index === si) return {...subArray, [name]: value}
+      //   return sub
+      // })
+      // console.log(newSubArray);
+      // const updatedSubArray = update(subArray, {$set: newSubArray})
+      // console.log(updatedSubArray)
+      // const mySet = new Set(subArray)
+      // // const newSub = [...subArray, newSubSec]
+      // const newSec = update(mySet, {$add: newSubSec})
+      // console.log(newSec)
+      this.setState({
+        ...this.state,
+        sections: newSections
+        })
     }
     return null
-
-    // subArray.map(arr => (
-    //   let newSub = update(arr, {$merge: {[name]: value }})
-    //   this.setState({
-    //     subArray: newSub
-    //   })
-    // ))
-    // this.setState({ ...this.state.section })
   }
 
   addSection = (e) => {
@@ -93,10 +115,11 @@ export default class Main extends Component{
     const sections = this.state.sections
     //single section object: section[i]
     // if(sections !== '[{}]') {
-      console.log(sections)
+      // console.log(sections)
       let newSecObj = {...sections[i],subArray:[{}]}
-      console.log(newSecObj)
+      // console.log(newSecObj)
       this.setState({
+          ...this.state,
           sections:[
             ...sections.slice(0,i),
             Object.assign({}, sections[i], newSecObj),
