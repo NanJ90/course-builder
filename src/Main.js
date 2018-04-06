@@ -72,7 +72,7 @@ export default class Main extends Component{
 
          newSec = {...this.state.sections[i], subArray: newSubArray}
          console.log(newSec)
-        // return newSubArray
+        return newSec
       }
     // console.log(newSubArray)
     return {
@@ -80,17 +80,6 @@ export default class Main extends Component{
       // subArray: newSubArray
     };
   })
-      // const newSubArray = subArray.map((sub, index) => {
-      //   if(index === si) return {...subArray, [name]: value}
-      //   return sub
-      // })
-      // console.log(newSubArray);
-      // const updatedSubArray = update(subArray, {$set: newSubArray})
-      // console.log(updatedSubArray)
-      // const mySet = new Set(subArray)
-      // // const newSub = [...subArray, newSubSec]
-      // const newSec = update(mySet, {$add: newSubSec})
-      // console.log(newSec)
       this.setState({
         ...this.state,
         sections: newSections
