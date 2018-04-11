@@ -9,7 +9,7 @@ class Section extends Component{
 
   renderSection () {
     const { handleSecOnChange, removeSection, sections,
-      addSubComponent, handleOnChange } = this.props
+      addSubComponent, handleOnChange, removeSubComponent } = this.props
 
     return (
       sections.map((obj,i) => {
@@ -33,6 +33,7 @@ class Section extends Component{
             handleClick={addSubComponent}
             handleOnChange={handleOnChange}
             sections={sections}
+            removeSubComponent={removeSubComponent}
             index={i}
           />
         </div>

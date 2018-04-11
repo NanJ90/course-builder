@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import update from 'immutability-helper'
+// import update from 'immutability-helper'
 
-import {MetaData, Section, Practice, BtnGroup, SubSection } from './components/index'
-import SubBtnGroup from './components/SubBtnGroup'
+import {MetaData, Section, Practice, BtnGroup } from './components/index'
+// import SubBtnGroup from './components/SubBtnGroup'
 // import BtnGroup from './components/BtnGroup'
 // import handleInputChange from './helpers/helper.js'
 
@@ -11,8 +11,6 @@ export default class Main extends Component{
     super();
     this.state = {
         sectionVisibility: false,
-        // practiceVisibility: false,
-        // subSecVisibility: false,
           sections: [{}],
           practices:[]
   }
@@ -69,16 +67,10 @@ export default class Main extends Component{
            if(index === si) return {...sub, [name]: value}
            return sub
          })
-
          newSec = {...this.state.sections[i], subArray: newSubArray}
-         console.log(newSec)
         return newSec
       }
-    // console.log(newSubArray)
-    return {
-      ...sec,
-      // subArray: newSubArray
-    };
+    return { ...sec };
   })
       this.setState({
         ...this.state,
@@ -102,21 +94,34 @@ export default class Main extends Component{
   addSubComponent = (i) => (e) => {
     e.preventDefault()
     const sections = this.state.sections
-    //single section object: section[i]
-    // if(sections !== '[{}]') {
-      // console.log(sections)
-      let newSecObj = {...sections[i],subArray:[{}]}
-      // console.log(newSecObj)
-      this.setState({
-          ...this.state,
-          sections:[
-            ...sections.slice(0,i),
-            Object.assign({}, sections[i], newSecObj),
-            ...sections.slice(i+1)
-          ]
-      })
-    // }
-    // return alert("You have to have a section!")
+      let newSecObj;
+      if(!sections[i].subArray) {
+        newSecObj = {...sections[i],subArray:[{}]}
+        this.setState({
+            ...this.state,
+            sections:[
+              ...sections.slice(0,i),
+              Object.assign({}, sections[i], newSecObj),
+              ...sections.slice(i+1)
+            ]
+        })
+      } else {
+        // console.log("need to add second, third, forth!!!!")
+        const newSubArray = sections[i].subArray.concat({})
+        console.log(newSubArray)
+        newSecObj= {
+          ...sections[i],
+          subArray:newSubArray
+        }
+        this.setState({
+            ...this.state,
+            sections:[
+              ...sections.slice(0,i),
+              Object.assign({}, sections[i], newSecObj),
+              ...sections.slice(i+1)
+            ]
+        })
+      }
 }
   removeSection = (e,i) => {
     e.preventDefault()
@@ -130,15 +135,29 @@ export default class Main extends Component{
         }
     })
   }
+  removeSubComponent = (e, si, i) => {
+    e.preventDefault()
+    const sections = this.state.sections
+    let newSubArray= sections[i].subArray.filter((el, index) => si !== index)
+    // sections[i].subArray = newSubArray
+    const newSecObj = {...this.state.sections[i], subArray: newSubArray}
+    // console.log(newSecObj)
+    this.setState({
+      ...this.state,
+      sections:[
+        ...sections.slice(0,i),
+        Object.assign({}, sections[i], newSecObj),
+        ...sections.slice(i+1)
+      ]
+     })
+  }
 
   handleSubmit = (evt) => {
     alert(JSON.stringify(this.state))
   }
 
   render() {
-    // console.log(this.state.sections)
-    // console.log(this.state.course.sections.length)
-    // console.log(this.state.course.practices.length)
+    // console.log(this.state)
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
@@ -161,15 +180,8 @@ export default class Main extends Component{
                 sections={this.state.sections}
                 removeSection={this.removeSection}
                 handleOnChange={this.handleSubsecOnChange}
+                removeSubComponent={this.removeSubComponent}
                />
-               {/* {this.state.subSecVisibility ?
-                 <SubSection
-                   handleOnChange={this.handleSubsecOnChange}
-                   addSubSec={this.addSubSec}
-                   sections={this.state.course.sections}
-                 />
-                 :
-                null} */}
                 <button onClick={this.addSection}>Add Section</button>
             </div>
              :
