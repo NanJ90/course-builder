@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import SubBtnGroup from './SubBtnGroup'
+import { SubBtnGroup } from './index'
 
-class Section extends Component{
+class Section extends Component {
   constructor() {
     super()
     this.renderSection = this.renderSection.bind(this)

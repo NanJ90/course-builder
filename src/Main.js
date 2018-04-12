@@ -11,8 +11,9 @@ export default class Main extends Component{
     super();
     this.state = {
         sectionVisibility: false,
+        practiceVisibility: false,
           sections: [{}],
-          practices:[]
+          practices:[{}]
   }
 }
 
@@ -28,12 +29,12 @@ export default class Main extends Component{
         this.setState({
           sectionVisibility: !this.state.sectionVisibility
         })
-        break;
+        break
       case 'practice':
         this.setState({
           practiceVisibility: !this.state.practiceVisibility
         })
-        break;
+        break
         default:
     }
   }
@@ -42,7 +43,6 @@ export default class Main extends Component{
    const { name, value } = event.target
    const sections = this.state.sections
    const newSection = sections.map((section,si) => {
-     //enter new content
      if(si === i) return {...section, [name]: value}
      return section
    })
@@ -71,7 +71,7 @@ export default class Main extends Component{
         return newSec
       }
     return { ...sec };
-  })
+    })
       this.setState({
         ...this.state,
         sections: newSections
@@ -80,15 +80,28 @@ export default class Main extends Component{
     return null
   }
 
-  addSection = (e) => {
+  addSectionAndPractice = (e) => {
     e.preventDefault()
-    this.setState((prevState) => {
-      return {
-          ...prevState,
-          sections:this.state.sections.concat({})
-        }
-
-    })
+    const type = e.target.dataset.clickType
+    switch(type) {
+      case 'sections':
+      this.setState((prevState) => {
+        return {
+            ...prevState,
+            sections:this.state.sections.concat({})
+          }
+      })
+      break
+      case 'practices':
+      this.setState((prevState) => {
+        return {
+            ...prevState,
+            practices:this.state.practice.concat({})
+          }
+      })
+      break
+      default:
+    }
   }
 
   addSubComponent = (i) => (e) => {
@@ -106,9 +119,7 @@ export default class Main extends Component{
             ]
         })
       } else {
-        // console.log("need to add second, third, forth!!!!")
         const newSubArray = sections[i].subArray.concat({})
-        console.log(newSubArray)
         newSecObj= {
           ...sections[i],
           subArray:newSubArray
@@ -123,6 +134,7 @@ export default class Main extends Component{
         })
       }
 }
+
   removeSection = (e,i) => {
     e.preventDefault()
     let newSection = this.state.sections
@@ -135,13 +147,12 @@ export default class Main extends Component{
         }
     })
   }
+
   removeSubComponent = (e, si, i) => {
     e.preventDefault()
     const sections = this.state.sections
     let newSubArray= sections[i].subArray.filter((el, index) => si !== index)
-    // sections[i].subArray = newSubArray
     const newSecObj = {...this.state.sections[i], subArray: newSubArray}
-    // console.log(newSecObj)
     this.setState({
       ...this.state,
       sections:[
@@ -157,7 +168,6 @@ export default class Main extends Component{
   }
 
   render() {
-    // console.log(this.state)
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
@@ -182,19 +192,26 @@ export default class Main extends Component{
                 handleOnChange={this.handleSubsecOnChange}
                 removeSubComponent={this.removeSubComponent}
                />
-                <button onClick={this.addSection}>Add Section</button>
+                <button data-click-type='sections' onClick={(e)=>this.addSectionAndPractice(e)}>Add Section</button>
             </div>
              :
             null
           }
-         <div>
-         {this.state.practiceVisibility ?
-           <Practice
-           practiceVisibility={this.state.practiceVisibility}/> :
-           null
-        }
-        {/* <SubBtnGroup /> */}
-        </div>
+           <div>
+           {this.state.practiceVisibility ?
+             <div>
+             <Practice
+               addSubComponent={this.addSubComponent}
+               handleClick={this.handleClick}
+               handleOnChange={this.handleSubsecOnChange}
+               removeSubComponent={this.removeSubComponent}
+             />
+             <button data-click-type='practices' onClick={(e)=>this.addSectionAndPractice(e)}>Add Practice</button>
+             </div>
+             :
+             null
+          }
+          </div>
         </div>
       <button>Submit</button>
     </form>
