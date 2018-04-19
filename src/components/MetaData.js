@@ -11,9 +11,7 @@ const MetaData = ({ handleOnChange }) => (
           Test Abbreviation:
           <input type="text" name='testAbbr' onChange={(e,name) => handleOnChange(e, name)}/>
         </label>
-        <label>
-          Intro Video:
-        </label>
+        <button>Intro Video</button>
         <label>
           Sales Page:
           <input type='text' name='salesPage' onChange={(e,name) => handleOnChange(e, name)}/>

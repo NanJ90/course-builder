@@ -2,27 +2,25 @@ import React, { Component } from 'react'
 import { SubBtnGroup } from './index'
 
 class Practice extends Component {
-  constructor() {
-    super()
-  }
   render() {
-    return (
-      <div>
-     Practice container
-   </div>
+    const { practices, removeSecAndPrac, addSubComponent, handleOnChange, removeSubComponent } = this.props
+
+    return (practices.map((practice,pindex) => {
+      return (
+        <div key={pindex+1}>
+          <button data-click-type='practices' onClick={(e) => removeSecAndPrac(e,pindex)}>Remove</button>
+          <SubBtnGroup
+          handleClick={addSubComponent}
+          handleOnChange={handleOnChange}
+          practices={practices}
+          removeSubComponent={removeSubComponent}
+          pindex={pindex}
+          />
+         </div>
+        )
+      })
     )
   }
-
-  // const { addSubComponent, handleOnChange, removeSubComponent } = this.props
-
 }
-// const Practice = ({ practiceVisibility }) => (
-//   <div>
-//     Practice container
-//     {/* <div>
-//       {practiceVisibility ? <SubBtnGroup /> : null}
-//     </div> */}
-// </div>
-// )
 
 export { Practice }

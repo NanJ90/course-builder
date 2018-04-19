@@ -8,23 +8,22 @@ class Section extends Component {
   }
 
   renderSection () {
-    const { handleSecOnChange, removeSection, sections,
+    const { handleSecOnChange, removeSecAndPrac, sections,
       addSubComponent, handleOnChange, removeSubComponent } = this.props
 
     return (
-      sections.map((obj,i) => {
-        let sectionName = `section[${i+1}]`
+      sections.map((section, sindex) => {
+        let sectionName = `section[${sindex+1}]`
         return (
-          <div key={i+1}>
-            <button onClick={(e) => removeSection(e,i)}>Remove</button>
+          <div key={sindex+1}>
+            <button data-click-type='sections' onClick={(e) => removeSecAndPrac(e,sindex)}>Remove</button>
             <label>Section Name</label>
-            <input type='text' name={sectionName} onChange={(e)=> handleSecOnChange(e,i)} />
+            <input type='text' name={sectionName} onChange={(e)=> handleSecOnChange(e,sindex)} />
 
-            <label>Intro Video</label>
-            <input type='text' name='introVideo'/>
+            <button>Intro Video</button>
 
             <label>Description</label>
-            <input type='text' name='sectionDesc' onChange={(e) =>  handleSecOnChange(e,i)}/>
+            <input type='text' name='sectionDesc' onChange={(e) =>  handleSecOnChange(e,sindex)}/>
 
             <label>Color</label>
             <input type='text' name='color'/>
@@ -34,7 +33,7 @@ class Section extends Component {
             handleOnChange={handleOnChange}
             sections={sections}
             removeSubComponent={removeSubComponent}
-            index={i}
+            sindex={sindex}
           />
         </div>
         )
