@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-// import update from 'immutability-helper'
-
 import {MetaData, Section, Practice, BtnGroup } from './components/index'
-// import SubBtnGroup from './components/SubBtnGroup'
-// import BtnGroup from './components/BtnGroup'
-// import handleInputChange from './helpers/helper.js'
 
 export default class Main extends Component{
   constructor() {
